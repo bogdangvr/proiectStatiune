@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pensiuni</title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<table class="table table-striped table-bordered table-sm">
+    <thead class="thead-dark">
+    <tr>
+        <th>Nume</th>
+        <th>Adresa</th>
+        <th>Descriere</th>
+        <th>Telefon</th>
+        <th>AdresaMail</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+{% for pensiune in pensiuni %}
+    <tr>
+        <td>{{ pensiune.nume}}</td>
+        <td>{{ pensiune.strada }}</td>
+        <td>{{ pensiune.descriere }}</td>
+        <td>{{ pensiune.telefon }}</td>
+        <td>{{ pensiune.adresaMail }}</td>
+        <td>
+            <a href="/cazare/edit/{{ pensiune.id }}"><span class="glyphicon glyphicon-pencil" >Edit</span></a>
+            <a href="/cazare/delete/{{ pensiune.id }}">Delete</a>
+        </td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+<center><a href="/cazare/pens" class="btn btn-primary">Add New Record</a></center>
+</body>
+</html>
