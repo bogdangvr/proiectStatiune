@@ -26,3 +26,5 @@ def logout_view(request):
     return render(request,'registration/logged_out.html'
                           '')
 
+def activitati_montane(request):
+    return render (request,'statiune/activitati_montane.html')
