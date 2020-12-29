@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pensiuni</title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<table class="table table-striped table-bordered table-sm">
+    <thead class="thead-dark">
+    <tr>
+        <th>Nume</th>
+        <th>Adresa</th>
+        <th>Descriere</th>
+        <th>Telefon</th>
+        <th>AdresaMail</th>
+    </tr>
+    </thead>
+    <tbody>
+{% for pensiune in pensiuni %}
+    <tr>
+        <td>{{ pensiune.nume}}</td>
+        <td>{{ pensiune.strada }}</td>
+        <td>{{ pensiune.descriere }}</td>
+        <td>{{ pensiune.telefon }}</td>
+        <td>{{ pensiune.adresaMail }}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+</body>
+</html>
+{% endblock %}
