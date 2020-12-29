@@ -1,5 +1,41 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-<h1>About page</h1>
+<style>
+img {
+  filter: gray; /* IE6-9 */
+  -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+    -webkit-box-shadow: 0px 2px 6px 2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 2px 6px 2px rgba(0,0,0,0.75);
+    box-shadow: 0px 2px 6px 2px rgba(0,0,0,0.75);
+    margin-bottom:20px;
+}
+
+img:hover {
+  filter: none; /* IE6-9 */
+  -webkit-filter: grayscale(0); /* Google Chrome, Safari 6+ & Opera 15+ */
+
+}
+</style>
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<h1>Galerie: </h1>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src="{% static 'images/statiune1.jpg'%}" /></div>
+        <div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src="{% static 'images/statiune2.jpg'%}" /></div>
+        <div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src="{% static 'images/statiune3.jpg'%}"/></div>
+        <div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src="{% static 'images/statiune4.jpg'%}"/></div>
+    	<div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src="{% static 'images/statiune5.jpg'%}" /></div>
+        <div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src="{% static 'images/statiune6.jpg'%}" /></div>
+	    <div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src="{% static 'images/statiune7.jpg'%}"/></div>
+        <div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src="{% static 'images/statiune8.jpg'%}" /></div>
+    </div>
+</div>
+
 {% endblock %}
