@@ -7,8 +7,16 @@ from django.contrib.auth import logout
 from .models import Pensiune
 from .forms import PensiuneCreate
 from django.http import HttpResponse
-
+from django.views.generic import TemplateView
 # Create your views here.
+
+
+class HomePageView(TemplateView):
+    template_name = 'statiune/home.html'
+
+class AboutPageView(TemplateView): # new
+    template_name = 'statiune/about.html'
+
 @login_required
 def index(request):
     return render(request,'statiune/index.html'
@@ -45,6 +53,10 @@ def pens(request):
 def show(request):
     pensiuni = Pensiune.objects.all()
     return render(request,"cazare/show.html",{'pensiuni':pensiuni})
+
+def list(request):
+    pensiuni = Pensiune.objects.all()
+    return render(request,"cazare/list.html",{'pensiuni':pensiuni})
 
 def edit(request, id):
     pensiune = Pensiune.objects.get(id=id)
