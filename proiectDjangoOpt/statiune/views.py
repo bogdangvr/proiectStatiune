@@ -4,8 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from .models import Pensiune, Activitate
-from .forms import PensiuneCreate, ActivitateCreate
+from .models import Pensiune, Activitate, Restaurant
+from .forms import PensiuneCreate, ActivitateCreate, RestaurantCreate
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 # Create your views here.
@@ -112,3 +112,41 @@ def destroyAct(request, id):
     activitate = Activitate.objects.get(id=id)
     activitate.delete()
     return redirect('/activitati_montane/show')
+
+def rest(request):
+    if request.method == "POST":
+        form = RestaurantCreate(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect('/restaurant/showRest')
+            except:
+                pass
+    else:
+        form = RestaurantCreate()
+    return render(request,"restaurant/indexRest.html",{'form':form})
+
+def showRest(request):
+    restaurante = Restaurant.objects.all()
+    return render(request,"restaurant/showRest.html",{'restaurante':restaurante})
+
+def listRest(request):
+    restaurante = Restaurant.objects.all()
+    return render(request,"restaurant/listRest.html",{'restaurante':restaurante})
+
+def editRest(request, id):
+    restaurant = Restaurant.objects.get(id=id)
+    return render(request,'restaurant/editRest.html', {'restaurant':restaurant})
+
+def updateRest(request, id):
+    restaurant = Restaurant.objects.get(id=id)
+    form = RestaurantCreate(request.POST, instance = restaurant)
+    if form.is_valid():
+        form.save()
+        return redirect("restaurant/showRest")
+    return render(request, 'restaurant/editRest.html', {'restaurant': restaurant})
+
+def destroyRest(request, id):
+    restaurant = Restaurant.objects.get(id=id)
+    restaurant.delete()
+    return redirect('/restaurant/showRest')

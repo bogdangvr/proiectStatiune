@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styleRest.css' %}"/>
+</head>
+<body>
+<form method="POST" class="post-form" action="/restaurant/rest">
+        {% csrf_token %}
+    <div class="container">
+<br>
+    <div class="form-group row">
+    <label class="col-sm-1 col-form-label"></label>
+    <div class="col-sm-4">
+    <h3>Adaugati detalii: </h3>
+    </div>
+  </div>
+    <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Nume restaurant:</label>
+    <div class="col-sm-4">
+      {{ form.numeRest }}
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Specific:</label>
+    <div class="col-sm-4">
+      {{ form.specific }}
+    </div>
+  </div>
+    <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Adresa:</label>
+    <div class="col-sm-4">
+      {{ form.adresa }}
+    </div>
+  </div>
+    <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Telefon:</label>
+    <div class="col-sm-4">
+      {{ form.telefonRest }}
+    </div>
+  </div>
+  </div>
+    <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Descriere:</label>
+    <div class="col-sm-4">
+      {{ form.descriereRest }}
+    </div>
+  </div>
+    <div class="form-group row">
+    <label class="col-sm-1 col-form-label"></label>
+    <div class="col-sm-4">
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+    </div>
+</form>
+</body>
+</html>
