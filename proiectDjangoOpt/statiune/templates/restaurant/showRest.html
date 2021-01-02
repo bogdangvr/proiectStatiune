@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurante</title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styleRest.css' %}"/>
+</head>
+<body>
+<table class="table table-striped table-bordered table-sm">
+    <thead class="thead-dark">
+    <tr>
+        <th>Nume</th>
+        <th>Specific</th>
+        <th>Adresa</th>
+        <th>Telefon</th>
+        <th>Descriere</th>
+    </tr>
+    </thead>
+    <tbody>
+{% for restaurant in restaurante %}
+    <tr>
+        <td>{{ restaurant.numeRest }}</td>
+        <td>{{ restaurant.specific }}</td>
+        <td>{{ restaurant.adresa }}</td>
+        <td>{{ restaurant.telefonRest }}</td>
+        <td>{{ restaurant.descriereRest }}</td>
+        <td>
+            <a href="/restaurant/editRest/{{ restaurant.id }}"><span class="glyphicon glyphicon-pencil" >Edit</span></a>
+            <a href="/restaurant/deleteRest/{{ restaurant.id }}">Delete</a>
+        </td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+<center><a href="/restaurant/rest" class="btn btn-primary">Add New Record</a></center>
+</body>
+</html>
+{% endblock %}
