@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Activitati Montane</title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<table class="table table-striped table-bordered table-sm">
+    <thead class="thead-dark">
+    <tr>
+        <th>Tipul</th>
+        <th>Varsta minima</th>
+        <th>Sezonul</th>
+        <th>Telefon</th>
+        <th>Mail</th>
+    </tr>
+    </thead>
+    <tbody>
+{% for activitate in activitati %}
+    <tr>
+        <td>{{ activitate.tip}}</td>
+        <td>{{ activitate.varsta_minima }}</td>
+        <td>{{ activitate.sezon }}</td>
+        <td>{{ activitate.telefon }}</td>
+        <td>{{ activitate.mail }}</td>
+        <td>
+            <a href="/activitati_montane/edit/{{ activitate.id }}"><span class="glyphicon glyphicon-pencil" >Edit</span></a>
+            <a href="/activitati_montane/delete/{{ activitate.id }}">Delete</a>
+        </td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+<center><a href="/activitati_montane/act" class="btn btn-primary">Add New Record</a></center>
+</body>
+</html>
+{% endblock %}
