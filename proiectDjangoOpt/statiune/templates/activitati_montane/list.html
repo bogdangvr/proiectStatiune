@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Activitati Montane</title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<table class="table table-striped table-bordered table-sm">
+    <thead class="thead-dark">
+    <tr>
+        <th>Tipul</th>
+        <th>Varsta minima</th>
+        <th>Sezonul</th>
+        <th>Telefon</th>
+        <th>Mail</th>
+    </tr>
+    </thead>
+    <tbody>
+{% for activitate in activitati %}
+    <tr>
+        <td>{{ activitate.tip}}</td>
+        <td>{{ activitate.varsta_minima }}</td>
+        <td>{{ activitate.sezon }}</td>
+        <td>{{ activitate.telefon }}</td>
+        <td>{{ activitate.mail }}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+</body>
+</html>
+{% endblock %}

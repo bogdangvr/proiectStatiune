@@ -4,8 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from .models import Pensiune
-from .forms import PensiuneCreate
+from .models import Pensiune, Activitate
+from .forms import PensiuneCreate, ActivitateCreate
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 # Create your views here.
@@ -75,3 +75,40 @@ def destroy(request, id):
     pensiune.delete()
     return redirect('/cazare/show')
 
+def act(request):
+    if request.method == "POST":
+        form = ActivitateCreate(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect('/activitati_montane/show')
+            except:
+                pass
+    else:
+        form = ActivitateCreate()
+    return render(request,"activitati_montane/index.html",{'form':form})
+
+def showAct(request):
+    activitati = Activitate.objects.all()
+    return render(request,"activitati_montane/show.html",{'activitati':activitati})
+
+def listAct(request):
+    activitati = Activitate.objects.all()
+    return render(request,"activitati_montane/list.html",{'activitati':activitati})
+
+def editAct(request, id):
+    activitate = Activitate.objects.get(id=id)
+    return render(request,'activitati_montane/edit.html', {'activitate':activitate})
+
+def updateAct(request, id):
+    activitate = Activitate.objects.get(id=id)
+    form = PensiuneCreate(request.POST, instance = activitate)
+    if form.is_valid():
+        form.save()
+        return redirect("activitati_montane/show")
+    return render(request, 'activitati_montane/edit.html', {'activitate':activitate})
+
+def destroyAct(request, id):
+    activitate = Activitate.objects.get(id=id)
+    activitate.delete()
+    return redirect('/activitati_montane/show')

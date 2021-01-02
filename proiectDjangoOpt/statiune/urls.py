@@ -14,4 +14,10 @@ urlpatterns = [
     path('cazare/edit/<int:id>', views.edit),
     path('cazare/update/<int:id>', views.update),
     path('cazare/delete/<int:id>', views.destroy),
+    path('activitati_montane/act', views.act),
+    path('activitati_montane/show', views.showAct),
+    path('activitati_montane/list', views.listAct),
+    path('activitati_montane/edit/<int:id>', views.editAct),
+    path('activitati_montane/update/<int:id>', views.updateAct),
+    path('activitati_montane/delete/<int:id>', views.destroyAct),
 ]
