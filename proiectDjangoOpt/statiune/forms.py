@@ -1,5 +1,5 @@
 from django import forms
-from .models import Pensiune, Activitate
+from .models import Pensiune, Activitate, Restaurant
 
 
 #DataFlair
@@ -13,4 +13,10 @@ class ActivitateCreate(forms.ModelForm):
 
     class Meta:
         model = Activitate
+        fields = '__all__'
+
+class RestaurantCreate(forms.ModelForm):
+
+    class Meta:
+        model = Restaurant
         fields = '__all__'

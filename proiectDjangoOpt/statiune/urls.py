@@ -20,4 +20,10 @@ urlpatterns = [
     path('activitati_montane/edit/<int:id>', views.editAct),
     path('activitati_montane/update/<int:id>', views.updateAct),
     path('activitati_montane/delete/<int:id>', views.destroyAct),
+    path('restaurant/rest', views.rest),
+    path('restaurant/showRest', views.showRest),
+    path('restaurant/listRest', views.listRest),
+    path('restaurant/editRest/<int:id>', views.editRest),
+    path('restaurant/updateRest/<int:id>', views.updateRest),
+    path('restaurant/deleteRest/<int:id>', views.destroyRest),
 ]
