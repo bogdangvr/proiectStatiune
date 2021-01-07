@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
-from .views import HomePageView, AboutPageView
+from .views import HomePageView, AboutPageView, CerereCazare
 
 urlpatterns = [
     path('about/', AboutPageView.as_view(), name='about'),
@@ -9,10 +9,17 @@ urlpatterns = [
     path('statiune/sign_up/',views.sign_up,name="sign-up"),
     path('statiune/logout/',views.logout_view,name="logout"),
     path('cazare/pens', views.pens),
+    #path('cazare/cerereCazare', views.cerereCazare),
+    path('cazare/adaugaRez', CerereCazare.as_view(), name="cerere_cazare"),
+    path('cazare/camera', views.camera),
     path('cazare/show', views.show),
+    path('cazare/listCamera', views.listCamera),
+    path('cazare/listaCompleta', views.listaCompleta),
+    path('cazare/showCamera', views.showCamera),
     path('cazare/list', views.list),
     path('cazare/edit/<int:id>', views.edit),
     path('cazare/update/<int:id>', views.update),
+    path('cazare/deleteCamera/<int:id>', views.destroyCamera),
     path('cazare/delete/<int:id>', views.destroy),
     path('activitati_montane/act', views.act),
     path('activitati_montane/show', views.showAct),

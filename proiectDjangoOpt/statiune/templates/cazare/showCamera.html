@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Camere cazare</title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<table class="table table-striped table-bordered table-sm">
+    <thead class="thead-dark">
+    <tr>
+        <th>Numar_camera</th>
+        <th>Cu/fara baie</th>
+        <th>Nr_persoana</th>
+
+    </tr>
+    </thead>
+    <tbody>
+{% for pensiune in pensiuni %}
+    <tr>
+        <td>{{ pensiune.numar_camera}}</td>
+        <td>{{ pensiune.tip_camera }}</td>
+        <td>{{ pensiune.nr_persoane }}</td>
+        <td>
+            <a href="/cazare/deleteCamera/{{ pensiune.id }}">Delete</a>
+        </td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+<center><a href="/cazare/camera" class="btn btn-primary">Add New Record</a></center>
+</body>
+</html>
+{% endblock %}

@@ -4,10 +4,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from .models import Pensiune, Activitate, Restaurant
-from .forms import PensiuneCreate, ActivitateCreate, RestaurantCreate
+from .models import Pensiune, Activitate, Restaurant, Camera
+from .forms import PensiuneCreate, ActivitateCreate, RestaurantCreate, CameraCreate, CerereRezervare
 from django.http import HttpResponse
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
+
+
 # Create your views here.
 
 
@@ -49,6 +51,64 @@ def pens(request):
     else:
         form = PensiuneCreate()
     return render(request,"cazare/index.html",{'form':form})
+'''
+def cerereCazare(request):
+    if request.method == "POST":
+        form = CerereRezervare(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect('/cazare/show')
+            except:
+                pass
+    else:
+        form = CerereRezervare()
+    return render(request,"cazare/adaugaRez.html",{'form':form})
+'''
+class CerereCazare(FormView):
+    form_class = CerereRezervare
+    template_name = 'cazare/adaugaRez.html'
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        camere = Camera.objects.all()
+        #verifica disponibilitate camere ->
+        #raman relatie
+        return redirect("/cazare/show")
+
+
+def camera(request):
+    if request.method == "POST":
+        form = CameraCreate(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect('/cazare/showCamera')
+            except:
+                pass
+    else:
+        form = CameraCreate()
+    return render(request,"cazare/indexCamera.html",{'form':form})
+
+def showCamera(request):
+    pensiuni = Camera.objects.all()
+    return render(request,"cazare/showCamera.html",{'pensiuni':pensiuni})
+
+def listaCompleta(request):
+    pensiuni = Camera.objects.all()
+    return render(request,"cazare/listaCompleta.html",{'pensiuni':pensiuni})
+
+def listCamera(request):
+    camere = Camera.objects.all()
+    nr_total_pers = 0
+    nr_total_camere = 0
+    for camera in camere:
+        nr_total_pers += camera.nr_persoane;
+        nr_total_camere += 1;
+
+    return render(request,"cazare/listCamera.html",{'pensiuni':camere, 'camere': nr_total_camere, 'pers': nr_total_pers});
+
+
 
 def show(request):
     pensiuni = Pensiune.objects.all()
@@ -74,6 +134,11 @@ def destroy(request, id):
     pensiune = Pensiune.objects.get(id=id)
     pensiune.delete()
     return redirect('/cazare/show')
+
+def destroyCamera(request, id):
+    pensiune = Camera.objects.get(id=id)
+    pensiune.delete()
+    return redirect('/cazare/showCamera')
 
 def act(request):
     if request.method == "POST":
@@ -150,3 +215,4 @@ def destroyRest(request, id):
     restaurant = Restaurant.objects.get(id=id)
     restaurant.delete()
     return redirect('/restaurant/showRest')
+
