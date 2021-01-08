@@ -4,11 +4,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from .models import Pensiune, Activitate, Restaurant, Camera
+from .models import Pensiune, Activitate, Restaurant, Camera, RezervareCamere
 from .forms import PensiuneCreate, ActivitateCreate, RestaurantCreate, CameraCreate, CerereRezervare
 from django.http import HttpResponse
 from django.views.generic import TemplateView, FormView
-
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 
@@ -30,13 +30,13 @@ def sign_up(request):
         if form.is_valid():
             user = form.save()
             login(request,user)
-            return render(request,'statiune/index.html')
+            return render(request,'statiune/home.html')
     context['form']=form
     return render(request,'registration/sign_up.html',context)
 
 def logout_view(request):
     logout(request)
-    return render(request,'registration/logged_out.html'
+    return render(request,'statiune/home.html'
                           '')
 
 def pens(request):
@@ -65,6 +65,17 @@ def cerereCazare(request):
         form = CerereRezervare()
     return render(request,"cazare/adaugaRez.html",{'form':form})
 '''
+
+def camera_disp(check_in,check_out,camera_complex):
+    rezervariActuale = RezervareCamere.objects.all()
+    for rezervare in rezervariActuale:
+        #lista_camere = rezervariActuale.camereRezervate;
+        #if (camera_complex in lista_camere):
+        if rezervare in camera_complex.rezervarecamere_set.all():
+            if (check_in >= rezervare.check_in and check_in <= rezervare.check_out) or (check_out > rezervare.check_in and check_out <= rezervare.check_out) :
+                return False;
+    return True;
+
 class CerereCazare(FormView):
     form_class = CerereRezervare
     template_name = 'cazare/adaugaRez.html'
@@ -72,10 +83,35 @@ class CerereCazare(FormView):
     def form_valid(self, form):
         data = form.cleaned_data
         camere = Camera.objects.all()
+        numar_camere_dorite = data['numar_camere_dorite']
+        check_in = data['data_start']
+        check_out = data['data_final']
+        print(numar_camere_dorite)
         #verifica disponibilitate camere ->
         #raman relatie
-        return redirect("/cazare/show")
+        rezerv = []
+        for camera_complex in camere:
+            if camera_disp(check_in,check_out,camera_complex) == True :
+                rezerv.append(camera_complex)
+        if (len(rezerv) >= numar_camere_dorite):
+            rezervare1 = RezervareCamere.objects.create(nume = data['nume'],
+                                         prenume = data['prenume'],
+                                         telefon = data['telefon'],
+                                         adresaMail = data['adresaMail'],
+                                         check_in = check_in,
+                                         check_out = check_out,
+                                         numar_camere = numar_camere_dorite
+                                         )
+            rezervare1.save()
+            for i in range(numar_camere_dorite):
+                rezervare1.camereRezervate.add(rezerv[i])
+            return redirect("/cazare/showRezervare")
+        else:
+            return redirect("/cazare/indisponibilitate")
+        return redirect("restaurant/listRest")
 
+def indisponibilitate(request):
+    return render(request,"cazare/indisponibilitate.html",{})
 
 def camera(request):
     if request.method == "POST":
@@ -94,6 +130,15 @@ def showCamera(request):
     pensiuni = Camera.objects.all()
     return render(request,"cazare/showCamera.html",{'pensiuni':pensiuni})
 
+def showRezervare(request):
+    user = request.user.get_username()
+    rezervari = RezervareCamere.objects.all()
+    rezervariUser = []
+    for rezervare in rezervari:
+        if rezervare.adresaMail == user:
+            rezervariUser.append(rezervare)
+    return render(request,"cazare/showRezervare.html",{'rezervari':rezervariUser, 'user': user})
+
 def listaCompleta(request):
     pensiuni = Camera.objects.all()
     return render(request,"cazare/listaCompleta.html",{'pensiuni':pensiuni})
@@ -108,7 +153,10 @@ def listCamera(request):
 
     return render(request,"cazare/listCamera.html",{'pensiuni':camere, 'camere': nr_total_camere, 'pers': nr_total_pers});
 
-
+def destroyRezervare(request, id):
+    rez = RezervareCamere.objects.get(id=id)
+    rez.delete()
+    return redirect('/cazare/showRezervare')
 
 def show(request):
     pensiuni = Pensiune.objects.all()

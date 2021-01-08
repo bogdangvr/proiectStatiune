@@ -97,7 +97,6 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 <div class="cycle" style="cursor: url('http://i.imgur.com/FrQFOJo.png'), auto;" >
-<h2 class="text-center">Easy panoramic headers: <small>drag mouse around on image</small></h2>
 </div> <!-- /.cycle -->
 <div class="container">
   <div class="row">
@@ -107,5 +106,5 @@
     </div><!-- /.row -->
     </div><!-- /.container -->
 </body>
-<center> <h1>Bine ati venit pe la noi!</h1> </center>
+<center> <h1>Bine ati venit pe la noi  {{  request.user.username.title }}!</h1> </center>
 {% endblock content %}

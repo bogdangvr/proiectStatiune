@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,14 +10,14 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
 </head>
 <body>
-<form method="POST" class="post-form" action="/cazare/listCamera">
+<form method="POST" class="post-form" action="/cazare/adaugaRez">
         {% csrf_token %}
     <div class="container">
 <br>
     <div class="form-group row">
     <label class="col-sm-1 col-form-label"></label>
     <div class="col-sm-4">
-    <h3>Adaugati detalii d-voastra: </h3>
+    <h3>Adaugati detalii d-voastra pentru o noua rezervare: </h3>
     </div>
   </div>
     <div class="form-group row">
@@ -41,21 +44,20 @@
       {{ form.telefon }}
     </div>
   </div>
-  </div>
+
     <div class="form-group row">
     <label class="col-sm-2 col-form-label">Check-in:</label>
     <div class="col-sm-4">
       {{ form.data_start }}
     </div>
   </div>
-      </div>
     <div class="form-group row">
     <label class="col-sm-2 col-form-label">Check-out:</label>
     <div class="col-sm-4">
       {{ form.data_final }}
     </div>
   </div>
-      </div>
+
     <div class="form-group row">
     <label class="col-sm-2 col-form-label">Numar camere: </label>
     <div class="col-sm-4">
@@ -72,3 +74,4 @@
 </form>
 </body>
 </html>
+{% endblock %}
