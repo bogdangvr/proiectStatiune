@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
-from .views import HomePageView, AboutPageView, CerereCazare
+from .views import HomePageView, AboutPageView, CerereCazare, RegisterView
 
 urlpatterns = [
     path('about/', AboutPageView.as_view(), name='about'),
     path('', HomePageView.as_view(), name='home'),
-    path('statiune/sign_up/',views.sign_up,name="sign-up"),
+    path('register/', RegisterView.as_view(), name='register'),
     path('statiune/logout/',views.logout_view,name="logout"),
     path('cazare/pens', views.pens),
     #path('cazare/cerereCazare', views.cerereCazare),

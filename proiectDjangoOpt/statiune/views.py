@@ -1,15 +1,20 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.urls import reverse_lazy
+
 from .models import Pensiune, Activitate, Restaurant, Camera, RezervareCamere
 from .forms import PensiuneCreate, ActivitateCreate, RestaurantCreate, CameraCreate, CerereRezervare
 from django.http import HttpResponse
 from django.views.generic import TemplateView, FormView
 from django.contrib.auth import get_user_model
-
+from django.views.generic import (
+    TemplateView, ListView, DetailView,
+    CreateView, UpdateView, DeleteView
+)
 # Create your views here.
 
 
@@ -19,20 +24,39 @@ class HomePageView(TemplateView):
 class AboutPageView(TemplateView): # new
     template_name = 'statiune/about.html'
 
+class RegisterView(CreateView):
+    template_name= 'registration/register.html'
+    form_class = UserCreationForm
+    model = User
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        user = User.objects.create_user(username=data['username'],
+                                        password=data['password1'])
+        return redirect('/')
+
+class LoginView(TemplateView):
+    template_name = 'registration/login.html'
+
+    def get_context_data(self):
+        form = AuthenticationForm()
+        return {'form': form}
+
+    def post(self, request, *args, **kwargs):
+        form = AuthenticationForm(request=request, data=request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = authenticate(username=data['username'],
+                                password=data['password'])
+            login(request, user)
+            return redirect(reverse_lazy('post_list'))
+        else:
+            return render(request, "login.html", {"form": form})
+
 @login_required
 def index(request):
     return render(request,'statiune/index.html'
                           '')
-def sign_up(request):
-    context = {}
-    form = UserCreationForm(request.POST or None)
-    if request.method == "POST":
-        if form.is_valid():
-            user = form.save()
-            login(request,user)
-            return render(request,'statiune/home.html')
-    context['form']=form
-    return render(request,'registration/sign_up.html',context)
 
 def logout_view(request):
     logout(request)
