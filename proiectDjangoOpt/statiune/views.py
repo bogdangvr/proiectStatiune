@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.urls import reverse_lazy
 
-from .models import Pensiune, Activitate, Restaurant, Camera, RezervareCamere
-from .forms import PensiuneCreate, ActivitateCreate, RestaurantCreate, CameraCreate, CerereRezervare
+from .models import Pensiune, Activitate, Restaurant, Camera, Transport, RezervareCamere
+from .forms import PensiuneCreate, ActivitateCreate, RestaurantCreate, TransportCreate, CameraCreate, CerereRezervare
 from django.http import HttpResponse
 from django.views.generic import TemplateView, FormView
 from django.contrib.auth import get_user_model
@@ -288,3 +288,41 @@ def destroyRest(request, id):
     restaurant.delete()
     return redirect('/restaurant/showRest')
 
+
+def trans(request):
+    if request.method == "POST":
+        form = TransportCreate(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect('/transport/showTrans')
+            except:
+                pass
+    else:
+        form = TransportCreate()
+    return render(request,"transport/indexTrans.html",{'form':form})
+
+def showTrans(request):
+    transporturi = Transport.objects.all()
+    return render(request,"transport/showTrans.html",{'transporturi':transporturi})
+
+def listTrans(request):
+    transporturi = Transport.objects.all()
+    return render(request,"transport/listTrans.html",{'transporturi':transporturi})
+
+def editTrans(request, id):
+    transport = Transport.objects.get(id=id)
+    return render(request,'transport/editTrans.html', {'transport':transport})
+
+def updateTrans(request, id):
+    transport = Transport.objects.get(id=id)
+    form = TransportCreate(request.POST, instance = transport)
+    if form.is_valid():
+        form.save()
+        return redirect("transport/showTrans")
+    return render(request, 'transport/editTrans.html', {'transport': transport})
+
+def destroyTrans(request, id):
+    transport = Transport.objects.get(id=id)
+    transport.delete()
+    return redirect('/transport/showTrans')
