@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<form method="POST" class="post-form" action="/cazare/indisponibilitate">
+        {% csrf_token %}
+    <div class="container">
+<br>
+    <div class="form-group row">
+    <label class="col-sm-1 col-form-label"></label>
+    <div class="col-sm-4">
+    <h3>Ne pare rau! Nu avem spatiu disponibil in perioada precizata! Va asteptam cu mare drag in alta perioada. </h3>
+    </div>
+      </div>
+            </div>
+<center><a href="/cazare/adaugaRez" class="btn btn-primary">Faceti o rezervare/verificati disponibilitatea: </a></center>
+</form>
+</body>
+</html>
+{% endblock %}

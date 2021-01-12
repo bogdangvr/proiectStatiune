@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rezervarile dumneavoastra: </title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<table class="table table-striped table-bordered table-sm">
+    <thead class="thead-dark">
+    <tr>
+        <th>Check-in: </th>
+        <th>Check-out: </th>
+        <th>Numar camere: </th>
+
+    </tr>
+    </thead>
+    <tbody>
+{% for rezervare in rezervari %}
+    <tr>
+        <td>{{ rezervare.check_in}}</td>
+        <td>{{ rezervare.check_out }}</td>
+        <td>{{ rezervare.numar_camere}}</td>
+
+        <td>
+            <a href="/cazare/anuleazaRezervare/{{ rezervare.id }}">Anuleza rezervarea aceasta!</a>
+        </td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+    <center><a href="/cazare/adaugaRez" class="btn btn-primary">Faceti o rezervare/verificati disponibilitatea: </a></center>
+</body>
+</html>
+{% endblock %}

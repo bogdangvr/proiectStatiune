@@ -20,7 +20,7 @@ class Pensiune(models.Model):
     adresaMail = models.EmailField(blank = True)
     telefon = models.CharField(max_length = 10, default='07XXXXXXXX')
     descriere = models.CharField(max_length = 600, default='No description')
-    camere = models.ForeignKey(Camera, on_delete=models.CASCADE)
+    camereRezervate = models.ManyToManyField(Camera)
     def __str__(self):
         return self.nume
 
@@ -31,7 +31,8 @@ class RezervareCamere(models.Model):
     adresaMail = models.EmailField(blank = True);
     check_in = models.DateTimeField();
     check_out = models.DateTimeField();
-    camere = models.ForeignKey(Camera, on_delete=models.CASCADE);
+    numar_camere = models.IntegerField(default=0);
+    camereRezervate = models.ManyToManyField(Camera)
     def __str__(self):
         return self.nume
 
