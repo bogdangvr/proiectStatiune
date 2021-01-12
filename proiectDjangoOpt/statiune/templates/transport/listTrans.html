@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transporturi</title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styleTrans.css' %}"/>
+</head>
+<body>
+<table class="table table-striped table-bordered table-sm">
+    <thead class="thead-dark">
+    <tr>
+        <th>Ruta</th>
+        <th>Tip</th>
+        <th>Cost</th>
+        <th>Program</th>
+        <th>Contact</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for transport in transporturi %}
+    <tr>
+        <td>{{ transport.rutaTrans }}</td>
+        <td>{{ transport.tipTrans }}</td>
+        <td>{{ transport.costTrans }}</td>
+        <td>{{ transport.programTrans }}</td>
+        <td>{{ transport.contactTrans }}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+</body>
+</html>
+{% endblock %}

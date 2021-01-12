@@ -53,3 +53,14 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.numeRest
+
+
+class Transport(models.Model):
+    rutaTrans = models.CharField(max_length = 80)
+    tipTrans = models.CharField(max_length = 50)
+    costTrans = models.CharField(max_length = 30)
+    programTrans = models.CharField(max_length = 100, default='Nu este disponibil')
+    contactTrans = models.CharField(max_length = 10, default='07XXXXXXXX')
+
+    def __str__(self):
+        return self.nume

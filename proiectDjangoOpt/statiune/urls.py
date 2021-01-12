@@ -33,4 +33,10 @@ urlpatterns = [
     path('restaurant/editRest/<int:id>', views.editRest),
     path('restaurant/updateRest/<int:id>', views.updateRest),
     path('restaurant/deleteRest/<int:id>', views.destroyRest),
+    path('transport/trans', views.trans),
+    path('transport/showTrans', views.showTrans),
+    path('transport/listTrans', views.listTrans),
+    path('transport/editTrans/<int:id>', views.editTrans),
+    path('transport/updateTrans/<int:id>', views.updateTrans),
+    path('transport/deleteTrans/<int:id>', views.destroyTrans),
 ]
