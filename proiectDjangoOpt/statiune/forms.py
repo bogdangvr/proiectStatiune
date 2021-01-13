@@ -36,6 +36,20 @@ class RestaurantCreate(forms.ModelForm):
         model = Restaurant
         fields = '__all__'
 
+class EvenimentCreate(forms.ModelForm):
+
+    class Meta:
+        model = Camera
+        fields = '__all__'
+
+class CerereEveniment(forms.Form):
+    nume =forms.CharField(required=True, max_length=100)
+    prenume =forms.CharField(required=True, max_length=100)
+    adresaMail =forms.CharField(required=True, max_length=100)
+    telefon = forms.CharField(required=True, max_length=100)
+    data_Event = forms.DateTimeField(required=True, input_formats=["%Y-%m-%d", ])
+    numar_persoane_dorite = forms.IntegerField(required=True)
+
 class TransportCreate(forms.ModelForm):
 
     class Meta:

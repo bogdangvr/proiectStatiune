@@ -6,8 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.urls import reverse_lazy
 
-from .models import Pensiune, Activitate, Restaurant, Camera, Transport, RezervareCamere
+from .models import Pensiune, Activitate, Restaurant, Camera, Transport, RezervareCamere, Eveniment, RezervareEveniment
 from .forms import PensiuneCreate, ActivitateCreate, RestaurantCreate, TransportCreate, CameraCreate, CerereRezervare
+from .forms import CerereEveniment
 from django.http import HttpResponse
 from django.views.generic import TemplateView, FormView
 from django.contrib.auth import get_user_model
@@ -91,11 +92,11 @@ def cerereCazare(request):
 '''
 
 def camera_disp(check_in,check_out,camera_complex):
-    rezervariActuale = RezervareCamere.objects.all()
+    rezervariActuale = RezervareEveniment.objects.all()
     for rezervare in rezervariActuale:
         #lista_camere = rezervariActuale.camereRezervate;
         #if (camera_complex in lista_camere):
-        if rezervare in camera_complex.rezervarecamere_set.all():
+        if rezervare in listRestaurant().rezervarecamere_set.all():
             if (check_in >= rezervare.check_in and check_in <= rezervare.check_out) or (check_out > rezervare.check_in and check_out <= rezervare.check_out) :
                 return False;
     return True;
@@ -270,6 +271,42 @@ def showRest(request):
 def listRest(request):
     restaurante = Restaurant.objects.all()
     return render(request,"restaurant/listRest.html",{'restaurante':restaurante})
+
+def listRestaurant(request):
+    evenimente = Eveniment.objects.all()
+    return render(request,"restaurant/listRestaurant.html",{'evenimente':evenimente})
+
+class CerereEveniment(FormView):
+    form_class = CerereEveniment
+    template_name = 'restaurant/adaugaRezEveniment.html'
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        restaurante = Restaurant.objects.all()
+        numar_persoane_dorite = data['numar_persoane_dorite']
+        data = data['data_start']
+        print(numar_persoane_dorite )
+        #verifica disponibilitate restaurant ->
+        #raman relatie
+        rezerv = []
+        for restaurant in restaurante:
+            if camera_disp(data,restaurant) == True :
+                rezerv.append(restaurant)
+            rezervare1 = RezervareEveniment.objects.create(nume = data['nume'],
+                                         prenume = data['prenume'],
+                                         telefon = data['telefon'],
+                                         adresaMail = data['adresaMail'],
+                                         data_dorita = data['data_dorita'],
+                                         numar_persoane = numar_persoane_dorite
+                                         )
+            rezervare1.save()
+            for i in range(numar_persoane_dorite):
+                rezervare1.camereRezervate.add(rezerv[i])
+            return redirect("/restaurant/showRezervare")
+        else:
+            return redirect("/restaurant/indisponibilitate")
+        return redirect("restaurant/listRest")
+
 
 def editRest(request, id):
     restaurant = Restaurant.objects.get(id=id)

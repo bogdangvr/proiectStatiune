@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
-from .views import HomePageView, AboutPageView, CerereCazare, RegisterView
+from .views import HomePageView, AboutPageView, CerereCazare, RegisterView, CerereEveniment
 
 urlpatterns = [
     path('about/', AboutPageView.as_view(), name='about'),
@@ -33,6 +33,8 @@ urlpatterns = [
     path('restaurant/rest', views.rest),
     path('restaurant/showRest', views.showRest),
     path('restaurant/listRest', views.listRest),
+    path('restaurant/adaugaRezEveniment', views.CerereEveniment),
+    path('restaurant/listRestaurant', views.listRestaurant),
     path('restaurant/editRest/<int:id>', views.editRest),
     path('restaurant/updateRest/<int:id>', views.updateRest),
     path('restaurant/deleteRest/<int:id>', views.destroyRest),

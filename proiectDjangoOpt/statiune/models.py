@@ -55,6 +55,25 @@ class Restaurant(models.Model):
     def __str__(self):
         return self.numeRest
 
+class Eveniment(models.Model):
+
+    nr_persoane = models.IntegerField(default = 0)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'Tipul de eveniment {} ce va gazdui {}.'.format(self.nr_persoane)
+
+
+class RezervareEveniment(models.Model):
+    nume = models.CharField(max_length = 50);
+    prenume = models.CharField(max_length = 50);
+    telefon = models.CharField(max_length=10, default='07XXXXXXXX');
+    adresaMail = models.EmailField(blank = True);
+    data_dorita = models.DateTimeField();
+    numar_persoane = models.IntegerField(default=0);
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.nume
 
 class Transport(models.Model):
     rutaTrans = models.CharField(max_length = 80)

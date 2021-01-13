@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rezervarile dumneavoastra: </title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<table class="table table-striped table-bordered table-sm">
+    <thead class="thead-dark">
+    <tr>
+        <th>Data dorita: </th>
+        <th>Numar persoane: </th>
+
+    </tr>
+    </thead>
+    <tbody>
+{% for rezervare in rezervari %}
+    <tr>
+        <td>{{ rezervare.data}}</td>
+        <td>{{ rezervare.numar_persoane_dorite }}</td>
+
+        <td>
+            <a href="/restaurant/anuleazaRezervare/{{ rezervare.id }}">Anuleza rezervarea aceasta!</a>
+        </td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+    <center><a href="/restaurant/adaugaRezEveniment" class="btn btn-primary">Faceti o rezervare/verificati disponibilitatea: </a></center>
+</body>
+</html>
+{% endblock %}
