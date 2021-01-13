@@ -92,11 +92,11 @@ def cerereCazare(request):
 '''
 
 def camera_disp(check_in,check_out,camera_complex):
-    rezervariActuale = RezervareEveniment.objects.all()
+    rezervariActuale = RezervareCamere.objects.all()
     for rezervare in rezervariActuale:
         #lista_camere = rezervariActuale.camereRezervate;
         #if (camera_complex in lista_camere):
-        if rezervare in listRestaurant().rezervarecamere_set.all():
+        if rezervare in camera_complex.rezervarecamere_set.all():
             if (check_in >= rezervare.check_in and check_in <= rezervare.check_out) or (check_out > rezervare.check_in and check_out <= rezervare.check_out) :
                 return False;
     return True;
@@ -112,21 +112,21 @@ class CerereCazare(FormView):
         check_in = data['data_start']
         check_out = data['data_final']
         print(numar_camere_dorite)
-        #verifica disponibilitate camere ->
-        #raman relatie
+        # verifica disponibilitate camere ->
+        # raman relatie
         rezerv = []
         for camera_complex in camere:
-            if camera_disp(check_in,check_out,camera_complex) == True :
+            if camera_disp(check_in, check_out, camera_complex) == True:
                 rezerv.append(camera_complex)
         if (len(rezerv) >= numar_camere_dorite):
-            rezervare1 = RezervareCamere.objects.create(nume = data['nume'],
-                                         prenume = data['prenume'],
-                                         telefon = data['telefon'],
-                                         adresaMail = data['adresaMail'],
-                                         check_in = check_in,
-                                         check_out = check_out,
-                                         numar_camere = numar_camere_dorite
-                                         )
+            rezervare1 = RezervareCamere.objects.create(nume=data['nume'],
+                                                        prenume=data['prenume'],
+                                                        telefon=data['telefon'],
+                                                        adresaMail=data['adresaMail'],
+                                                        check_in=check_in,
+                                                        check_out=check_out,
+                                                        numar_camere=numar_camere_dorite
+                                                        )
             rezervare1.save()
             for i in range(numar_camere_dorite):
                 rezervare1.camereRezervate.add(rezerv[i])
@@ -135,8 +135,10 @@ class CerereCazare(FormView):
             return redirect("/cazare/indisponibilitate")
         return redirect("restaurant/listRest")
 
+
 def indisponibilitate(request):
-    return render(request,"cazare/indisponibilitate.html",{})
+    return render(request, "cazare/indisponibilitate.html", {})
+
 
 def camera(request):
     if request.method == "POST":
@@ -149,11 +151,12 @@ def camera(request):
                 pass
     else:
         form = CameraCreate()
-    return render(request,"cazare/indexCamera.html",{'form':form})
+    return render(request, "cazare/indexCamera.html", {'form': form})
+
 
 def showCamera(request):
     pensiuni = Camera.objects.all()
-    return render(request,"cazare/showCamera.html",{'pensiuni':pensiuni})
+    return render(request, "cazare/showCamera.html", {'pensiuni': pensiuni})
 
 def showRezervare(request):
     user = request.user.get_username()

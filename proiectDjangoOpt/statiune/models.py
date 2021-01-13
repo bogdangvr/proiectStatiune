@@ -58,7 +58,7 @@ class Restaurant(models.Model):
 class Eveniment(models.Model):
 
     nr_persoane = models.IntegerField(default = 0)
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    eveniment_rezervat = models.IntegerField(default = 0)
 
     def __str__(self):
         return 'Tipul de eveniment {} ce va gazdui {}.'.format(self.nr_persoane)
@@ -71,7 +71,7 @@ class RezervareEveniment(models.Model):
     adresaMail = models.EmailField(blank = True);
     data_dorita = models.DateTimeField();
     numar_persoane = models.IntegerField(default=0);
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Eveniment, on_delete=models.CASCADE)
     def __str__(self):
         return self.nume
 
